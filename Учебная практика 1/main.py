@@ -4,8 +4,8 @@ from tkinter import*
 from tkinter import messagebox
 import math
 
-dt_now = date.today()
-#dt_now = date(2023, 1, 28)
+#dt_now = date.today()
+dt_now = date(2023, 1, 30)
 
 
 def create_new_file(username):
@@ -60,6 +60,11 @@ def new_attachment():
         username_filename = username + '.txt'
         days_deposit = loginInput_NumberDays.get()
         invested_amount = (int(loginInput_attachment.get()))
+        try:
+            val = int(invested_amount)
+        except ValueError:
+            messagebox.showwarning('Ошибка', 'Введите число в поле!')
+            return
         usename_data = date_now + ' ' + str(invested_amount) + ' ' + str(days_deposit)
         file_write = open(username_filename, 'a')
         file_write.write(usename_data)
@@ -71,6 +76,11 @@ def new_attachment():
         date_now = str(dt_now)
         username = loginInput.get()
         username_filename = username + '.txt'
+        try:
+            val = int(loginInput_attachment.get())
+        except ValueError:
+            messagebox.showwarning('Ошибка', 'Введите число в поле!')
+            return
         withdrawal_amount = -abs(int(loginInput_attachment.get()))
         available_amount = summ_attachment()
         if abs(withdrawal_amount) > float(available_amount):
@@ -88,6 +98,11 @@ def new_attachment():
         username = loginInput.get()
         username_filename = username + '.txt'
         invested_amount = loginInput_attachment.get()
+        try:
+            val = int(invested_amount)
+        except ValueError:
+            messagebox.showwarning('Ошибка', 'Введите число в поле!')
+            return
         usename_data = date_now + ' ' + str(invested_amount) + ' 0'
         file_write = open(username_filename, 'a')
         file_write.write(usename_data)
@@ -136,13 +151,13 @@ def create_new_window():
             year = int(string[0:4])
             first_date = dt_now
             second_date = date(year, mounth, days)
-            if int(string_split[2]) != 0 and first_date != second_date:
+            if int(string_split[2]) != 0 and first_date >= second_date:
                 old_data = string_split
                 delta = first_date - second_date
                 delta_str = str(delta)
                 delta_split = delta_str.split(' ')
                 delta_days = delta_split[0]
-                if int(string_split[2]) == int(delta_days):
+                if int(string_split[2]) <= int(delta_days):
                     percent = int(summ_on_balance)
                     for i in range(int(string_split[2])):
                         print(percent)
@@ -158,6 +173,9 @@ def create_new_window():
     f.write(new_file)
     f.close()
 
+    def update():
+        balance = summ_attachment()
+        label_balance.config(text=balance)
 
     newWindow = Toplevel(window)
     newWindow.title('Приложение копилка(Вход произведен)')
@@ -177,6 +195,9 @@ def create_new_window():
 
     button_new_attachment = Button(newFrame, text='Новая операция', command=new_attachment)
     button_new_attachment.pack()
+
+    buttop_update = Button(newFrame, text='Обновить', command=update)
+    buttop_update.pack()
 
 
 window = Tk()
