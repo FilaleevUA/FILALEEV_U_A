@@ -4,8 +4,8 @@ from tkinter import*
 from tkinter import messagebox
 import math
 
-#dt_now = date.today()
-dt_now = date(2023, 1, 30)
+dt_now = date.today()
+#dt_now = date(2023, 1, 30)
 
 
 def create_new_file(username):
@@ -175,7 +175,8 @@ def create_new_window():
 
     def update():
         balance = summ_attachment()
-        label_balance.config(text=balance)
+        label_balance.config(text='Баланс: '+balance)
+        newWindow.after(1000, update)
 
     newWindow = Toplevel(window)
     newWindow.title('Приложение копилка(Вход произведен)')
@@ -196,9 +197,7 @@ def create_new_window():
     button_new_attachment = Button(newFrame, text='Новая операция', command=new_attachment)
     button_new_attachment.pack()
 
-    buttop_update = Button(newFrame, text='Обновить', command=update)
-    buttop_update.pack()
-
+    newWindow.after(1000, update)
 
 window = Tk()
 window.title('Приложение (Копилка)')
