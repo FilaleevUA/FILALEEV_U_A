@@ -61,9 +61,14 @@ def new_attachment():
         days_deposit = loginInput_NumberDays.get()
         invested_amount = (int(loginInput_attachment.get()))
         try:
+            val = int(days_deposit)
+        except ValueError:
+            messagebox.showwarning('Ошибка', 'Введите число в поле количества дней!')
+            return
+        try:
             val = int(invested_amount)
         except ValueError:
-            messagebox.showwarning('Ошибка', 'Введите число в поле!')
+            messagebox.showwarning('Ошибка', 'Введите число в поле суммы!')
             return
         usename_data = date_now + ' ' + str(invested_amount) + ' ' + str(days_deposit)
         file_write = open(username_filename, 'a')
@@ -79,7 +84,7 @@ def new_attachment():
         try:
             val = int(loginInput_attachment.get())
         except ValueError:
-            messagebox.showwarning('Ошибка', 'Введите число в поле!')
+            messagebox.showwarning('Ошибка', 'Введите число в поле суммы!')
             return
         withdrawal_amount = -abs(int(loginInput_attachment.get()))
         available_amount = summ_attachment()
@@ -101,7 +106,7 @@ def new_attachment():
         try:
             val = int(invested_amount)
         except ValueError:
-            messagebox.showwarning('Ошибка', 'Введите число в поле!')
+            messagebox.showwarning('Ошибка', 'Введите число в поле суммы!')
             return
         usename_data = date_now + ' ' + str(invested_amount) + ' 0'
         file_write = open(username_filename, 'a')
