@@ -14,6 +14,8 @@ public class Route {
     public  Route(int numberTrain, String nameRoute){
         this.nameRoute = nameRoute;
         this.numberTrain = numberTrain;
+        DBConnection B = new DBConnection();
+        B.writeNewRoute(nameRoute,numberTrain);
     }
 
     private DoublyLinkedListForRoutePath newRouteList = new DoublyLinkedListForRoutePath(); //Список пути

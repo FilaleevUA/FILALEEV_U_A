@@ -3,8 +3,12 @@ package ru;
 import java.sql.*;
 
 public class Main {
+
     public static void main(String[] args) throws SQLException {
+
+
         /*// Создание новых путей
+
         Route b = new Route(1, "Первая круговая");
 
         // Создание новых остановок
@@ -49,29 +53,10 @@ public class Main {
         */
         //Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/TrainPath", "root", "root");
         //con.close();
-        try{
-            String url = "\"jdbc:mysql://localhost:3306/TrainPath\"";
-            String username = "root";
-            String password = "root";
-            //Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
-            // команда создания таблицы
-            String sqlCommand = "CREATE TABLE route (Id INT PRIMARY KEY AUTO_INCREMENT, NameRoute VARCHAR(20), NumberTrain INT)";
-
-            try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/TrainPath", "root", "root");){
-
-                Statement statement = conn.createStatement();
-                // создание таблицы
-                statement.executeUpdate(sqlCommand);
-
-                System.out.println("Database has been created!");
-            }
-        }
-        catch(Exception ex){
-            System.out.println("Connection failed...");
-
-            System.out.println(ex);
-        }
-
-
+        DBConnection con = new DBConnection();
+        //con.writeNewRoute("Круговая", 3);
+        //con.deleteRoute("3");
+        //System.out.println(con.getTableRoute());
+        Route route1 = new Route(3, "Осознал");
     }
 }
