@@ -3,74 +3,36 @@ package ru;
 import java.sql.*;
 
 public class Main {
-    public static void main(String[] args) throws SQLException {
-        /*// Создание новых путей
-        Route b = new Route(1, "Первая круговая");
+    public static Time setTime(int hour, int minute, int second){
+        return new Time(hour, minute, second);
+    }
 
-        // Создание новых остановок
-        RoutePath h = new RoutePath("Первая");
-        RoutePath m = new RoutePath("Пушкинская - 2-я");
-        RoutePath j = new RoutePath("Калашникова - 3-я");
-        RoutePath u = new RoutePath("Конечная");
-
-        // Добавление времени на остановке
-        m.setTimeArrivals(2,0,0);
-        m.setTimeDepartures(2,15,0);
-
-        // Добавление времени на остановке
-        h.setTimeArrivals(0,30,15);
-        h.setTimeDepartures(0,32,15);
-
-        // Добавление времени на остановке
-        j.setTimeArrivals(3,0,0);
-        j.setTimeDepartures(3,15,0);
-
-        // Добавление времени на остановке
-        u.setTimeArrivals(3,30,0);
-        u.setTimeDepartures(4, 0,0);
-
-        //Добавляем в путь новые остановки
-        b.writeNewDeparturesPoint(h);
-        b.writeNewArrivalPoint(u);
-        b.writeNewPoint(m,2);
-        b.writeNewPoint(j,3);
+    public static void main(String[] args) {
+        DBConnection dbConnection = new DBConnection();
+        dbConnection.createTableRoute();
+        dbConnection.createTableRoutePath();
 
 
-        RoutePath newPath = new RoutePath("Особенная - 4-я");
-        newPath.setTimeArrivals(3,0,0);
-        newPath.setTimeDepartures(3,15,0);
+        Route firstRoute9KS = new Route(9,"Путь 9кс");
 
-        b.writeNewPoint(newPath,4);
+        firstRoute9KS.writeNewRoutePath("Московский проспект",setTime(9,10,0),setTime(9,15,0));
+        firstRoute9KS.writeNewRoutePath("Московский проспект-2", setTime(9,20,0),setTime(9,40,0));
+
+
+        Route secondRoute3 = new Route(3,"Путь 3");
+
+        secondRoute3.writeNewRoutePath("Институт ВГУИТ", setTime(9,10,0),setTime(9,15,0));
+        secondRoute3.writeNewRoutePath("Конечная",setTime(9,30,0),setTime(9,45,0));
+
+        secondRoute3.updateRoutePath("NamePoint","Конечная","Вовсе не конечная");
+        secondRoute3.deleteRoutePath("Институт ВГУИТ");
 
 
 
-        //Вывод всех точек остановки
-        b.callAllRoutePoint();
-        */
-        //Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/TrainPath", "root", "root");
-        //con.close();
-        try{
-            String url = "\"jdbc:mysql://localhost:3306/TrainPath\"";
-            String username = "root";
-            String password = "root";
-            //Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
-            // команда создания таблицы
-            String sqlCommand = "CREATE TABLE route (Id INT PRIMARY KEY AUTO_INCREMENT, NameRoute VARCHAR(20), NumberTrain INT)";
 
-            try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/TrainPath", "root", "root");){
 
-                Statement statement = conn.createStatement();
-                // создание таблицы
-                statement.executeUpdate(sqlCommand);
+        firstRoute9KS.deleteRoute();
 
-                System.out.println("Database has been created!");
-            }
-        }
-        catch(Exception ex){
-            System.out.println("Connection failed...");
-
-            System.out.println(ex);
-        }
 
 
     }

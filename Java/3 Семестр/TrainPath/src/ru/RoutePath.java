@@ -9,28 +9,28 @@ public class RoutePath {
 
     private String namePoing; // Название остановки
 
-    public RoutePath(String namePoing){
-        this.namePoing  = namePoing;
+    private int numberTrain; // Связующая между остановкой и путем
 
+    public RoutePath() {
+    }
+
+    public RoutePath(String NamePoint, int NumberTrain, Time TimeArrivals, Time TimeDepartures) {
+        this.namePoing = NamePoint;
+        this.numberTrain = NumberTrain;
+        this.timeArrivals = TimeArrivals;
+        this.timeDepartures = TimeDepartures;
+        DBConnection B = new DBConnection();
+        B.writeNewRoutePath(namePoing, timeArrivals, timeDepartures, numberTrain);
     }
 
 
-    public void setNamePoing(String currNamePoint){
-        namePoing = currNamePoint;
-    } // Задать название остановки
-    public void setTimeArrivals(int hour, int minute, int sec){
-        timeArrivals = new Time(hour,minute,sec);
-    } // Задать время прибытия
-    public void  setTimeDepartures(int hour, int minute, int sec){
-        timeDepartures = new Time(hour,minute,sec);
-    } // Задать время отбытия
-    public String getTimeArrivals(){
-        return timeArrivals.toString();
-    } // Получить время прибытия
-    public String getTimeDepartures(){
-        return timeDepartures.toString();
-    } // Получить время отбытия
-    public String getNamePoing(){
-        return namePoing;
-    } //Получить название остановки
+    public void updateRoutePath(String columnName, String oldValue, String newValue, int numberTrain) {
+        DBConnection B = new DBConnection();
+        B.updateRoutePath(columnName, oldValue, newValue, numberTrain);
+    }
+
+    public void deleteRoutePath(String NamePoint, int numberTrain) {
+        DBConnection B = new DBConnection();
+        B.deleteRoutePath(NamePoint, numberTrain);
+    }
 }
