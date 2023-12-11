@@ -4,17 +4,16 @@ import java.sql.Time;
 
 public class RoutePath {
 
-    private Time timeArrivals; // Переменная времени прибытия на остановку
-    private Time timeDepartures; // Переменная времени отбытия от остановки
+    private String timeArrivals; // Переменная времени прибытия на остановку
+    private String timeDepartures; // Переменная времени отбытия от остановки
 
     private String namePoing; // Название остановки
 
     private int numberTrain; // Связующая между остановкой и путем
 
-    public RoutePath() {
-    }
+    public RoutePath() {}
 
-    public RoutePath(String NamePoint, int NumberTrain, Time TimeArrivals, Time TimeDepartures) {
+    public RoutePath(String NamePoint, int NumberTrain, String TimeArrivals, String TimeDepartures) {
         this.namePoing = NamePoint;
         this.numberTrain = NumberTrain;
         this.timeArrivals = TimeArrivals;

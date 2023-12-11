@@ -14,9 +14,11 @@ public class Route {
         B.writeNewRoute(nameRoute,numberTrain);
     }
 
+    public Route(){}
+
     //////////////////////////////////////////////////////////////////////////////////////
 
-    public void writeNewRoutePath(String namePoint, Time timeArrivals, Time timeDepartures) {
+    public void writeNewRoutePath(String namePoint, String timeArrivals, String timeDepartures) {
         RoutePath routePath = new RoutePath(namePoint, numberTrain, timeArrivals, timeDepartures);
     }
 
@@ -30,12 +32,16 @@ public class Route {
         routePath.deleteRoutePath(nameRoutePath, numberTrain);
     }
 
-    public void deleteRoute(){
+    public void deleteRoute(String nameRoute, int numberTrain){
         DBConnection B = new DBConnection();
         B.deleteRoute(nameRoute,numberTrain);
     }
 
     public void updateRoute(String columnName, String oldValue, String newValue){
+        DBConnection B = new DBConnection();
+        B.updateRoute(columnName,oldValue,newValue);
+    }
+    public void updateRoute(String columnName, int oldValue, int newValue){
         DBConnection B = new DBConnection();
         B.updateRoute(columnName,oldValue,newValue);
     }

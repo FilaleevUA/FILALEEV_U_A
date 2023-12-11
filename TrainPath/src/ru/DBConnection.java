@@ -50,35 +50,41 @@ public class DBConnection {
         }
     }
 
-    public String getTable(String nameTable){
+    public String getTableRoutePath(int NumberTrain){
         StringBuilder tableRoute = new StringBuilder();
-        if (nameTable == "route") {
-            try {
-                try (Connection con = DriverManager.getConnection(url, username, password)) {
-                    Statement statement = con.createStatement();
-                    ResultSet resultSet = statement.executeQuery("SELECT * FROM " + nameTable);
-                    while (resultSet.next()) {
-                        int id = resultSet.getInt("ID");
-                        String nameRoute = resultSet.getString("NamePoint");
-                        String timeArrivals = resultSet.getString("TimeArrivals");
-                        String timeDepartures = resultSet.getString("TimeDepartires");
-                        int numberTrain = resultSet.getInt("NumberTrain");
-                        tableRoute.append(id).append(" ");
-                        tableRoute.append(nameRoute).append(" ");
-                        tableRoute.append(timeArrivals).append(" ");
-                        tableRoute.append(timeDepartures).append(" ");
-                        tableRoute.append(numberTrain).append(" \n");
-
-                    }
+        try (Connection con = DriverManager.getConnection(url, username, password)) {
+            Statement statement = con.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM routePath");
+            while (resultSet.next()) {
+                if (Objects.equals(resultSet.getInt("NumberTrain"),NumberTrain)){
+                    int id = resultSet.getInt("ID");
+                    String nameRoute = resultSet.getString("NamePoint");
+                    String timeArrivals = resultSet.getString("TimeArrivals");
+                    String timeDepartures = resultSet.getString("TimeDepartures");
+                    int numberTrain = resultSet.getInt("NumberTrain");
+                    tableRoute.append("\t");
+                    tableRoute.append(nameRoute).append(" ");
+                    tableRoute.append(timeArrivals).append(" ");
+                    tableRoute.append(timeDepartures).append(" ").append(" \n");
                 }
 
-            } catch (Exception ex) {
-                System.out.println("Connection failed...");
-                System.out.println(ex);
+
             }
+        }catch (Exception ex) {
+            System.out.println("Connection failed...");
+            System.out.println(ex);
+
         }
-        else {
-            try {
+        if (tableRoute.isEmpty()){
+            return "An error occurred, the table was not displayed";
+        }else {
+            return tableRoute.toString();
+        }
+    }
+
+    public String getTable(String nameTable){
+        StringBuilder tableRoute = new StringBuilder();
+        if (Objects.equals(nameTable, "routePath")) {
                 try (Connection con = DriverManager.getConnection(url, username, password)) {
                     Statement statement = con.createStatement();
                     ResultSet resultSet = statement.executeQuery("SELECT * FROM " + nameTable);
@@ -86,15 +92,30 @@ public class DBConnection {
                         int id = resultSet.getInt("ID");
                         String nameRoute = resultSet.getString("NameRoute");
                         int numberTrain = resultSet.getInt("NumberTrain");
-                        tableRoute.append(id).append(" ");
                         tableRoute.append(nameRoute).append(" ");
                         tableRoute.append(numberTrain).append(" \n");
                     }
-                }
+                }catch (Exception ex) {
+                    System.out.println("Connection failed...");
+                    System.out.println(ex);
 
-            } catch (Exception ex) {
-                System.out.println("Connection failed...");
-                System.out.println(ex);
+                }
+        }
+        else {
+                try (Connection con = DriverManager.getConnection(url, username, password)) {
+                    Statement statement = con.createStatement();
+                    ResultSet resultSet = statement.executeQuery("SELECT * FROM " + nameTable);
+                    while (resultSet.next()) {
+                        int id = resultSet.getInt("ID");
+                        String nameRoute = resultSet.getString("NameRoute");
+                        int numberTrain = resultSet.getInt("NumberTrain");
+                        tableRoute.append(nameRoute).append(" ");
+                        tableRoute.append(numberTrain).append(" \n");
+                        tableRoute.append(getTableRoutePath(numberTrain)).append("\n");
+                    }
+                }catch (Exception ex) {
+                    System.out.println("Connection failed...");
+                    System.out.println(ex);
             }
         }
         if (tableRoute.isEmpty()){
@@ -147,7 +168,7 @@ public class DBConnection {
             while (resultSet.next()){
                 if (Objects.equals(resultSet.getString(columnName), oldValue)){
                     int id = resultSet.getInt("ID");
-                    int rows = statement.executeUpdate("UPDATE route SET "+ columnName +" = "+ newValue +" WHERE Id = " + id);
+                    int rows = statement.executeUpdate("UPDATE route SET "+ columnName +" = '"+ newValue +"' WHERE Id = " + id);
                     System.out.printf("%d row updated ", rows);
                     return;
                 }
@@ -161,7 +182,29 @@ public class DBConnection {
         }
     }
 
-    public void writeNewRoutePath(String namePoint, Time timeArrivals, Time timeDepartures, int numberTrain){
+    public void updateRoute(String columnName,int oldValue, int newValue){
+        try (Connection conn = DriverManager.getConnection(url, username, password)) {
+            Statement statement = conn.createStatement();
+            int i = 0;
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM route");
+            while (resultSet.next()){
+                if (Objects.equals(resultSet.getInt(columnName), oldValue)){
+                    int id = resultSet.getInt("ID");
+                    int rows = statement.executeUpdate("UPDATE route SET "+ columnName +" = '"+ newValue +"' WHERE Id = " + id);
+                    System.out.printf("%d row updated ", rows);
+                    return;
+                }
+            }
+            System.out.println("The entered value was not found");
+
+        } catch (Exception ex) {
+            System.out.println("Connection failed...");
+            System.out.println(ex);
+
+        }
+    }
+
+    public void writeNewRoutePath(String namePoint, String timeArrivals, String timeDepartures, int numberTrain){
         try (Connection conn = DriverManager.getConnection(url, username, password)) {
             Statement statement = conn.createStatement();
             String sqlRequestNamePoint = "'"+ namePoint +"', ";
