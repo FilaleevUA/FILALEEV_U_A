@@ -12,3 +12,8 @@
 
 ![image](https://github.com/FilaleevUA/FILALEEV_U_A/assets/113377230/3326d8ac-1483-4e23-bf6b-8563fa9e5eb2)
 
+![image](https://github.com/FilaleevUA/FILALEEV_U_A/assets/113377230/a8f16346-adda-46cf-9ab4-25e5204f8df6)
+
+![image](https://github.com/FilaleevUA/FILALEEV_U_A/assets/113377230/fb9a9b58-8972-46ef-a40c-122aa0f55a07)
+
+![image](https://github.com/FilaleevUA/FILALEEV_U_A/assets/113377230/ea1c8079-9d21-49c6-b229-8057fce8e185)
